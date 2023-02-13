@@ -1,0 +1,91 @@
+<script>
+    var words = [
+        ['インターバルトレーニング', 'レペティショントレーニング', 'ペース走', 'ビルドアップ走' ],
+        ['激しい運動の間に不完全休息を入れ繰り返し行う方法',  '激しい運動の間に完全休息を入れ繰り返し行う方法',  '決められたある一定のペースで走る方法', '決められたある一定のペースから一定の距離ごとにそのペースを上げて走る方法']
+    ];
+    var array = [0,1,2,3];	//単語を１つ増やしたら、ここも１つ増やす。
+    for (var i = array.length - 1; i >= 0; i--){
+        var rand = Math.floor( Math.random() * ( i + 1 ) );
+        [array[i], array[rand]] = [array[rand], array[i]]
+    }
+     
+    var q_counter = -1;
+    var qa_flag = false;
+    var qa_lang = false;
+    var q_lang = 0;
+    var a_lang = 1;
+     
+    window.onload = function () {
+        counter_view();
+    };
+     
+    function switch_jn(){
+        if ( q_counter < 0 ) { return false; }
+        if ( qa_lang ) {
+            document.getElementById('jn_q').value = '単語：';
+            document.getElementById('jn_a').value = '意味：';
+            q_lang = "0";
+            a_lang = "1";
+        } else {
+            document.getElementById('jn_q').value = '意味：';
+            document.getElementById('jn_a').value = '単語：';
+            q_lang = "1";
+            a_lang = "0";
+        }
+        qa_lang = !(qa_lang);
+        qa_view();
+    }
+     
+    function prev_btn(){
+        if (!(qa_flag)) { q_counter--; }
+        if ( q_counter < 0 ) { q_counter = words[0].length - 1; }
+        qa_flag = !(qa_flag);
+        counter_view();
+        qa_view();
+    }
+     
+    function next_btn(){
+        if ( !(qa_flag) ) { q_counter++; }
+        if ( q_counter >= words[0].length ) { q_counter = 0; }
+        qa_flag = !(qa_flag);
+        counter_view();
+        qa_view();
+    }
+     
+    function qa_view(){
+        document.getElementById('one_q').value = words[q_lang][array[q_counter]];
+        if ( qa_flag ) {
+            document.getElementById('one_a').value = '';
+        } else {
+            document.getElementById('one_a').value = words[a_lang][array[q_counter]];
+        }
+    }
+     
+    function counter_view(){
+        document.getElementById('q_cnt').value = q_counter + 1 + '/' + words[0].length;
+    }
+    </script>
+     
+    <style>
+    #q_cnt, #jn_q, #jn_a {
+        border: none;
+        text-align: right;
+    }
+    #q_cnt, #jn_q, #jn_a, #one_q, #one_a {
+        font-size: 24px;
+    }
+    </style>
+     
+    <input type="text" readonly="readonly" size="3"  value="" id="q_cnt"><br>
+    <input type="text" readonly="readonly" size="6"  value="単語：" id="jn_q" >
+    <input type="text" readonly="readonly" size="30" value="" id="one_q"><br>
+    [<a href="javascript:void(0);" onClick="switch_jn();"> ↑↓ </a>]<br>
+    <input type="text" readonly="readonly" size="6"  value="意味：" id="jn_a" >
+    <input type="text" readonly="readonly" size="50" value="" id="one_a"><br>
+    <br>
+    [<a href="javascript:void(0);" onClick="prev_btn();"> もどる </a>]	[<a href="javascript:void(0);" onClick="next_btn();"> つぎ </a>]<br>
+    <title>単語帳保体持久走</title>
+    <p><a href="index.html">用語解説へ</a></p>
+    <p><a href="training.html">トレーニング方法へ</a></p>
+    <p><a href="kind.html">持久走の種類へ</a></p>
+     
